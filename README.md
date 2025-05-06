@@ -22,8 +22,8 @@ It simulates the scheduling of interviews between candidates and interviewers, i
 ### 1. Clone the repo & install dependencies
 
 ```bash
-git clone https://github.com/your-user/your-repo.git
-cd your-repo
+git clone https://github.com/tarassych/stalamvp
+cd stalamvp
 npm install
 ```
 
