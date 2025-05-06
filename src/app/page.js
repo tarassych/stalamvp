@@ -18,6 +18,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 const SuccessMessage = ({ message, eventID }) => {
     const [simulationStarted, setSimulationStarted] = useState(false);
 
+
     // Simulates a post-interview AI processing trigger
     const handleSimulate = async () => {
         try {
