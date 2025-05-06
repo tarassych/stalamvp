@@ -36,7 +36,7 @@ export default function EventsPage() {
 
 	// Fetch events from n8n webhook on mount
 	useEffect(() => {
-		fetch(process.env.N8N_GET_EVENTS_URL)
+		fetch(process.env.NEXT_PUBLIC_N8N_GET_EVENTS_URL)
 			.then(res => res.json())
 			.then(data => setEvents(Array.isArray(data) ? data : [data]))
 			.catch(err => console.error('Error loading events:', err))
@@ -56,7 +56,7 @@ export default function EventsPage() {
 		try {
 			setSimulationStartedIds(prev => ({ ...prev, [eventID]: true }));
 
-			await fetch(process.env.N8N_SIMULATE_AI_URL, {
+			await fetch(process.env.NEXT_PUBLIC_N8N_SIMULATE_AI_URL, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ eventID }),

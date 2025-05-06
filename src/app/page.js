@@ -23,7 +23,7 @@ const SuccessMessage = ({ message, eventID }) => {
     const handleSimulate = async () => {
         try {
             setSimulationStarted(true);
-            await fetch(process.env.N8N_SIMULATE_AI_URL, {
+            await fetch(process.env.NEXT_PUBLIC_N8N_SIMULATE_AI_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ eventID }),
@@ -102,8 +102,8 @@ export default function HomePage() {
         const fetchData = async () => {
             try {
                 const [candidatesRes, interviewersRes] = await Promise.all([
-                    fetch(process.env.N8N_GET_CANDIDATES_URL),
-                    fetch(process.env.N8N_GET_INTERVIEWERS_URL)
+                    fetch(process.env.NEXT_PUBLIC_N8N_GET_CANDIDATES_URL),
+                    fetch(process.env.NEXT_PUBLIC_N8N_GET_INTERVIEWERS_URL)
                 ]);
 
                 const [candidatesData, interviewersData] = await Promise.all([

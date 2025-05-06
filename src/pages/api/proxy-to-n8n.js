@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
 	try {
 		// Forward the request to the n8n webhook with same payload
-		const response = await fetch(process.env.N8N_SCHEDULE_EVENT_URL, {
+		const response = await fetch(process.env.NEXT_PUBLIC_N8N_SCHEDULE_EVENT_URL, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
