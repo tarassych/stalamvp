@@ -1,36 +1,140 @@
+# AI-Powered Interview Scheduler (Next.js + n8n)
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+It simulates the scheduling of interviews between candidates and interviewers, integrates with `n8n` automation, and triggers AI-based follow-up like Google Meet scheduling and transcription simulation.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- Candidate & interviewer selection form with date-time slot
+- Real-time scheduling via `n8n` webhook
+- Success confirmation + ability to simulate post-interview AI processing
+- View past scheduled events with summaries, conclusions, and transcripts
+- Transcripts shown in collapsible chat format per speaker
+- Built-in retry & error handling
+
+---
+
+## 📦 Getting Started
+
+### 1. Clone the repo & install dependencies
+
+```bash
+git clone https://github.com/your-user/your-repo.git
+cd your-repo
+npm install
+```
+
+### 2. Create `.env.local`
+
+Create a `.env.local` in your project root:
+
+```bash
+# .env.local
+NEXT_PUBLIC_N8N_GET_CANDIDATES_URL=https://your-n8n-url/...
+NEXT_PUBLIC_N8N_GET_INTERVIEWERS_URL=https://your-n8n-url/...
+NEXT_PUBLIC_N8N_GET_EVENTS_URL=https://your-n8n-url/...
+NEXT_PUBLIC_N8N_SIMULATE_AI_URL=https://your-n8n-url/...
+N8N_SCHEDULE_EVENT_URL=https://your-n8n-url/...
+```
+
+### 3. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000) to use the app.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧭 Pages & Functionality
 
-## Learn More
+| Page | Route | Description |
+|------|-------|-------------|
+| `app/page.js` | `/` | Main UI to schedule an interview: select candidate, interviewers, and time |
+| `app/events/page.js` | `/events` | View all past events with AI-generated summaries, conclusions, and transcript (if available) |
 
-To learn more about Next.js, take a look at the following resources:
+### 🔧 Key Functions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **`handleSchedule()`** in `app/page.js`: Sends candidate, interviewer(s), and selected date to `/api/proxy-to-n8n`
+- **`SuccessMessage` component**: Shown after scheduling; allows triggering post-meeting AI simulation
+- **`simulateProcessing()`** in `events/page.js`: Sends event ID to n8n to simulate AI follow-up
+- **API Proxy**: `/api/proxy-to-n8n.js` handles long-running requests to `n8n` (up to 3 min)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧪 Running Tests
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 1. Install test dependencies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom @testing-library/user-event msw whatwg-fetch
+```
+
+### 2. Add test scripts to `package.json`
+
+```json
+"scripts": {
+  "test": "jest"
+}
+```
+
+### 3. Run the test suite
+
+```bash
+npm test
+```
+
+### Test Coverage
+
+- `__tests__/events.test.js` – renders event data, toggles transcript, checks AI content
+- `__tests__/home.test.js` – (recommended) schedule flow and form behavior
+
+---
+
+## 🛠 File Structure Overview
+
+```
+src/
+├── app/
+│   ├── page.js                 # Homepage form UI
+│   └── events/
+│       └── page.js             # Events list page
+├── api/
+│   └── proxy-to-n8n.js         # Proxy server route for long n8n requests
+__tests__/
+├── events.test.js              # MSW + RTL test for events view
+.env.local                      # Your n8n API URLs
+jest.config.js                  # Jest config
+jest.setup.js                   # Mocks + polyfills for tests
+```
+
+---
+
+## 🧠 Learn More
+
+- [Next.js Docs](https://nextjs.org/docs)
+- [n8n Docs](https://docs.n8n.io)
+- [Testing Library Docs](https://testing-library.com/docs/react-testing-library/intro/)
+- [MSW Docs](https://mswjs.io/)
+
+---
+
+## ☁️ Deployment
+
+The easiest way to deploy your app is with [Vercel](https://vercel.com).
+
+You can also use:
+
+- [Render](https://render.com/)
+- [Netlify](https://netlify.com/)
+- Docker + GCP/AWS/VPS (manual)
+
+---
+
+## 📄 License
+
+MIT
